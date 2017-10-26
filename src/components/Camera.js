@@ -29,7 +29,7 @@ export default class ChatScreen extends React.Component {
 
   }
   static navigationOptions = {
-    title: 'Chat with Lucy'
+    title: 'Camera'
   };
 
   takePicture() {
