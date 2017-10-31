@@ -16,8 +16,7 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View>
-        <Text>Welcome to TakePicture-GetText!</Text>
-        <Button onPress={() => navigate('Camera')} title="Go to Camera"/>
+        <Text>Our App is alive!</Text>
       </View>
     );
   }
