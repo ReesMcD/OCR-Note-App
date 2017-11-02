@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Image, TouchableHighlight,Platform, StyleSheet, Text, View} from 'react-native';
 import Camera from 'react-native-camera';
 
 const styles = StyleSheet.create({
@@ -13,14 +13,15 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
-  }
-});
+
+        position: 'absolute',
+        bottom: 0,
+        padding: 16,
+        right: 10,
+        left: 10,
+        borderRadius: 20,
+        alignItems: 'center',
+}});
 
 export default class ChatScreen extends React.Component {
   constructor(props) {
@@ -43,11 +44,19 @@ export default class ChatScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Camera ref={(cam) => {
-          this.camera = cam;
-        }} style={styles.preview} aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
+        <Camera
+          ref={(cam) => { this.camera = cam;}}
+          style={styles.preview}
+           aspect={Camera.constants.Aspect.fill}
+        >
+
+
         </Camera>
+        <TouchableHighlight
+                    style={styles.capture}
+                    onPress={this.takePicture.bind(this)}>
+                    <Image source={require('../Img/Astley.gif')} />
+                </TouchableHighlight>
       </View>
     );
   }
