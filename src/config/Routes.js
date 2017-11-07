@@ -1,4 +1,5 @@
 import Home from '../components/Home'
+import Edit from '../components/Edit'
 import Camera from '../components/Camera'
 
 
@@ -9,6 +10,9 @@ const Routes = {
   Camera: {
     screen: Camera
   },
+  Edit: {
+    screen: Edit
+  }
 }
 
 export default Routes
