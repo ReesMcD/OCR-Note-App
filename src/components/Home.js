@@ -24,9 +24,6 @@ export default class HomeScreen extends React.Component {
     return (
       <View>
         <Text>Our App is alive!</Text>
-        <TouchableHighlight style={styles.cameraRoll} onPress={() => this.getPhotosFromGallery()}>
-          <Image source={require('../Img/camera_roll_circle.png')}/>
-        </TouchableHighlight>
       </View>
     );
   }
