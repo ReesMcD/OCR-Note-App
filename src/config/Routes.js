@@ -10,9 +10,9 @@ const Routes = {
   Camera: {
     screen: Camera
   },
-  Edit: {
-    screen: Edit
-  }
+  // Edit: {
+  //   screen: Edit
+  // }
 }
 
 export default Routes

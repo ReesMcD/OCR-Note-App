@@ -76,9 +76,9 @@ export default class capture extends React.Component {
     title: 'Camera'
   };
 
-//TODO: functions like these will probably be needed
-// setTextContent essentailly sets the state of the captureText
-// toggleLoader is a funtions that could be used for a loading screen via react-native-loading-spinner-overlay
+  //TODO: functions like these will probably be needed
+  // setTextContent essentailly sets the state of the captureText
+  // toggleLoader is a funtions that could be used for a loading screen via react-native-loading-spinner-overlay
 
   setTextContent(textContent) {
     //this.toggleLoader();
@@ -98,34 +98,30 @@ export default class capture extends React.Component {
   takePicture() {
     let self = this;
     //this.toggleLoader();
-    this.camera.capture()
-      .then((pic) => {
-        axios.post(cloudVision, {
-        "requests":[
+    this.camera.capture().then((pic) => {
+      axios.post(cloudVision, {
+        "requests": [
           {
-            "image":{
+            "image": {
               "content": pic.data
             },
-            "features":[
+            "features": [
               {
-                "type":"TEXT_DETECTION",
-                "maxResults":1
+                "type": "TEXT_DETECTION",
+                "maxResults": 1
               }
             ]
           }
         ]
-      })
-      .then(function (response) {
-        let textAnnotations  = response.data.responses[0].textAnnotations[0],
-            textContent      = textAnnotations.description;
+      }).then(function(response) {
+        let textAnnotations = response.data.responses[0].textAnnotations[0],
+          textContent = textAnnotations.description;
         self.setTextContent(textContent);
         console.log(textContent);
-      })
-      .catch(function (error) {
+      }).catch(function(error) {
         console.log(error, "error");
       });
-      })
-      .catch(err => console.error(err));
+    }).catch(err => console.error(err));
   }
 
   // This probably only works for iOS
@@ -148,8 +144,7 @@ export default class capture extends React.Component {
     return (<View style={styles.container}>
       <Camera ref={(cam) => {
           this.camera = cam;
-        }} style={styles.preview} captureQuality={Camera.constants.CaptureQuality["720p"]}
-        captureTarget={Camera.constants.CaptureTarget.memory} aspect={Camera.constants.Aspect.fill}></Camera>
+        }} style={styles.preview} captureQuality={Camera.constants.CaptureQuality["720p"]} captureTarget={Camera.constants.CaptureTarget.memory} aspect={Camera.constants.Aspect.fill}></Camera>
 
       <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)}>
         <Image source={require('../Img/Astley.gif')}/>
