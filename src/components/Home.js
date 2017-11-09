@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
-//import Camera from 'react-native-camera';
-//import RNCameraRoll from 'react-native-cameraroll';
-//import Camera from 'react-native-camera';
 
+//TODO: Style Stuff here
+const styles = StyleSheet.create({
 
-// RNCameraRoll.getAssets({ assetType: 'image', limit: 20 })
-//   .then(response => console.log(response))
-//   .catch(err => console.error(err));
+});
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      showPhotoGallery: true,
+      photoArray: []
+    }
 
   }
 
@@ -24,6 +24,9 @@ export default class HomeScreen extends React.Component {
     return (
       <View>
         <Text>Our App is alive!</Text>
+        <TouchableHighlight style={styles.cameraRoll} onPress={() => this.getPhotosFromGallery()}>
+          <Image source={require('../Img/camera_roll_circle.png')}/>
+        </TouchableHighlight>
       </View>
     );
   }
