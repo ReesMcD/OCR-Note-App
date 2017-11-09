@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ViewPhotos from './ViewPhotos';
+import axios from 'axios';
 
-//TODO: Get api key from Google Cloud Vision API
 // API KEY
-const cloudVisionKey = '';
+const cloudVisionKey = 'AIzaSyCg9QELuaeSftow2xQdPOjbMIrOPgvhA8w';
 
 // Endpoint
 const cloudVision = 'https://vision.googleapis.com/v1/images:annotate?key=' + cloudVisionKey;
@@ -67,7 +67,8 @@ export default class capture extends React.Component {
     }
 
     //TODO: Some functions that effect state (I think) will need to be binded here
-    // Something like this --> this.setTextContent = this.setTextContent.bind(this);
+    // Something like this -->
+    this.setTextContent = this.setTextContent.bind(this);
 
   }
 
@@ -79,11 +80,11 @@ export default class capture extends React.Component {
 // setTextContent essentailly sets the state of the captureText
 // toggleLoader is a funtions that could be used for a loading screen via react-native-loading-spinner-overlay
 
-  // setTextContent(textContent) {
-  //   //this.toggleLoader();
-  //   this.setState({captureText: textContent});
-  // }
-  //
+  setTextContent(textContent) {
+    //this.toggleLoader();
+    this.setState({captureText: textContent});
+  }
+  //This would be a loading screen
   // toggleLoader() {
   //   this.setState({
   //     showLoader: !this.state.showLoader
@@ -93,45 +94,39 @@ export default class capture extends React.Component {
   //TODO: After a photo is taken the screen should be sent to an edit page of the last photo
   //      The vision api should also be triggered somewhere along the way
   //https://github.com/DjordjePetrovic/react-native-camera-translator
-  takePicture() {
-    const options = {};
-    //options.location = ...
-    this.camera.capture({metadata: options}).then((data) => {
-      console.log(data))}.catch(err => console.error(err));
-  }
 
-  //TODO: Example takePicture with working cloudVision API
-  // takePicture() {
-  //   let self = this;
-  //   this.toggleLoader();
-  //   this.camera.capture()
-  //     .then((image64) => {
-  //       axios.post(cloudVision, {
-  //       "requests":[
-  //         {
-  //           "image":{
-  //             "content": image64.data
-  //           },
-  //           "features":[
-  //             {
-  //               "type":"TEXT_DETECTION",
-  //               "maxResults":1
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     })
-  //     .then(function (response) {
-  //       let textAnnotations  = response.data.responses[0].textAnnotations[0],
-  //           textContent      = textAnnotations.description,
-  //       self.setTextContent(textContent);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error, "error");
-  //     });
-  //     })
-  //     .catch(err => console.error(err));
-  // }
+  takePicture() {
+    let self = this;
+    //this.toggleLoader();
+    this.camera.capture()
+      .then((pic) => {
+        axios.post(cloudVision, {
+        "requests":[
+          {
+            "image":{
+              "content": pic.data
+            },
+            "features":[
+              {
+                "type":"TEXT_DETECTION",
+                "maxResults":1
+              }
+            ]
+          }
+        ]
+      })
+      .then(function (response) {
+        let textAnnotations  = response.data.responses[0].textAnnotations[0],
+            textContent      = textAnnotations.description;
+        self.setTextContent(textContent);
+        console.log(textContent);
+      })
+      .catch(function (error) {
+        console.log(error, "error");
+      });
+      })
+      .catch(err => console.error(err));
+  }
 
   // This probably only works for iOS
   // TODO: Integrate Android --> Look here: https://medium.com/react-native-training/mastering-the-camera-roll-in-react-native-13b3b1963a2d
@@ -145,6 +140,7 @@ export default class capture extends React.Component {
   }
 
   //TODO: Add everyting to render that is needed
+  //CaptureQuality and CaptureTarget effect the picture for text conversion
   render() {
     if (this.state.showPhotoGallery) {
       return (<ViewPhotos photoArray={this.state.photoArray}/>)
@@ -152,7 +148,8 @@ export default class capture extends React.Component {
     return (<View style={styles.container}>
       <Camera ref={(cam) => {
           this.camera = cam;
-        }} style={styles.preview} aspect={Camera.constants.Aspect.fill}></Camera>
+        }} style={styles.preview} captureQuality={Camera.constants.CaptureQuality["720p"]}
+        captureTarget={Camera.constants.CaptureTarget.memory} aspect={Camera.constants.Aspect.fill}></Camera>
 
       <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)}>
         <Image source={require('../Img/Astley.gif')}/>
