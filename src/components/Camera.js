@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   CameraRoll,
   Image,
   TouchableHighlight,
@@ -72,6 +73,19 @@ export default class capture extends React.Component {
 
   }
 
+//   const showAlert = () ⇒ {
+//     Alert.alert(
+//       'Alert Title',
+//       {this.state.captureText},
+//       [
+//         {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+//         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+//         {text: 'OK', onPress: () => console.log('OK Pressed')},
+//       ],
+//       { cancelable: false }
+// )
+//    }
+
   static navigationOptions = {
     title: 'Camera'
   };
@@ -92,8 +106,8 @@ export default class capture extends React.Component {
   // }
 
   //TODO: After a photo is taken the screen should be sent to an edit page of the last photo
-  //      The vision api should also be triggered somewhere along the way
-  //https://github.com/DjordjePetrovic/react-native-camera-translator
+  //      As a temp solution we can post to the database here for the demo
+  //Possibly helpful https://github.com/DjordjePetrovic/react-native-camera-translator
 
   takePicture() {
     let self = this;
@@ -113,11 +127,23 @@ export default class capture extends React.Component {
             ]
           }
         ]
-      }).then(function(response) {
+      }).then((response) => {
         let textAnnotations = response.data.responses[0].textAnnotations[0],
           textContent = textAnnotations.description;
         self.setTextContent(textContent);
-        console.log(textContent);
+        console.log(this.state.captureText);
+
+        //alerts with the text... temp solution for demo
+        Alert.alert(
+          'Alert Title',
+          "The text is: " + this.state.captureText,
+          [
+            {text: 'Close', onPress: () => console.log('Alert Closed')},
+          ],
+          { cancelable: false }
+    )
+
+
       }).catch(function(error) {
         console.log(error, "error");
       });
