@@ -27,7 +27,6 @@ class ViewPhotos extends Component {
       <View>
       <Button
       title= 'Back'
-      onPress=
       color = 'blue'
 
       />
