@@ -74,19 +74,6 @@ export default class capture extends React.Component {
 
   }
 
-//   const showAlert = () ⇒ {
-//     Alert.alert(
-//       'Alert Title',
-//       {this.state.captureText},
-//       [
-//         {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-//         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-//         {text: 'OK', onPress: () => console.log('OK Pressed')},
-//       ],
-//       { cancelable: false }
-// )
-//    }
-
   static navigationOptions = {
     title: 'Camera'
   };
@@ -106,8 +93,7 @@ export default class capture extends React.Component {
   //   })
   // }
 
-  //TODO: After a photo is taken the screen should be sent to an edit page of the last photo
-  //      As a temp solution we can post to the database here for the demo
+  //TODO: Possibly add loader
   //Possibly helpful https://github.com/DjordjePetrovic/react-native-camera-translator
 
   takePicture() {
@@ -133,17 +119,7 @@ export default class capture extends React.Component {
           textContent = textAnnotations.description;
         self.setTextContent(textContent);
         console.log(this.state.captureText);
-
-        //alerts with the text... temp solution for demo
-        Alert.alert(
-          'Alert Title',
-          "The text is: " + this.state.captureText,
-          [
-            {text: 'Close', onPress: () => console.log('Alert Closed')},
-          ],
-          { cancelable: false }
-    )
-
+        this.props.navigation.navigate('Edit', { name: this.state.captureText })
 
       }).catch(function(error) {
         console.log(error, "error");
@@ -158,16 +134,16 @@ export default class capture extends React.Component {
   goToPhotos = () => {
     CameraRoll.getPhotos({first: 100}).then(res => {
       let photoArray = res.edges;
-      this.props.navigation.navigate('CamRoll', { photoArray: photoArray})
+      this.props.navigation.navigate('CamRoll', {photoArray: photoArray})
     })
   }
 
   //TODO: Add everyting to render that is needed
   //CaptureQuality and CaptureTarget effect the picture for text conversion
-//   <Button
-// onPress={() => this.props.navigation.navigate('Edit', { name: 'edit' })}
-// title="To Edit"
-// />
+  //   <Button
+  // onPress={() => this.props.navigation.navigate('Edit', { name: 'edit' })}
+  // title="To Edit"
+  // />
   render() {
     return (<View style={styles.container}>
       <Camera ref={(cam) => {
@@ -178,10 +154,11 @@ export default class capture extends React.Component {
         <Image source={require('../Img/shutter.png')}/>
       </TouchableHighlight>
 
-      <TouchableHighlight style={styles.cameraRoll} onPress={() => {this.goToPhotos()}}>
+      <TouchableHighlight style={styles.cameraRoll} onPress={() => {
+          this.goToPhotos()
+        }}>
         <Image source={require('../Img/camera_roll_circle.png')}/>
       </TouchableHighlight>
-
 
     </View>);
   }

@@ -39,8 +39,6 @@ class ViewPhotos extends Component {
   render() {
     const { showSelectedPhoto, uri } = this.state;
     const {state} = this.props.navigation;
-    console.log("Props from View");
-    console.log(state.params.photoArray);
     if (showSelectedPhoto) {
       return (
         <SelectedPhoto
