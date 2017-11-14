@@ -3,8 +3,14 @@ import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 
 //TODO: Style Stuff here
 const styles = StyleSheet.create({
-
-});
+  grey: {
+    color: 'navy',
+    fontSize: 30,
+    paddingTop: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  }
+})
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -23,7 +29,7 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View>
-        <Text>Our App is alive!</Text>
+        <Text className='alive' style={styles.grey}>Welcome to TakePicture!</Text>
       </View>
     );
   }
