@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     bottom: -50,
     right: 150,
     left: 150,
-    height: 150,
+    height: 125,
     width: 100,
     borderRadius: 90,
     marginLeft: -15,
@@ -173,7 +173,7 @@ export default class capture extends React.Component {
         }} style={styles.preview} captureQuality={Camera.constants.CaptureQuality["720p"]} captureTarget={Camera.constants.CaptureTarget.memory} aspect={Camera.constants.Aspect.fill}></Camera>
 
       <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)}>
-        <Image source={require('../Img/Astley.gif')}/>
+        <Image source={require('../Img/shutter.png')}/>
       </TouchableHighlight>
 
       <TouchableHighlight style={styles.cameraRoll} onPress={() => this.getPhotosFromGallery()}>

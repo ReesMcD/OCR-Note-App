@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Button,
   Image,
   View,
   ListView,
@@ -23,12 +24,20 @@ class ViewPhotos extends Component {
   renderRow(rowData) {
     const { uri } = rowData.node.image;
     return (
+      <View>
+      <Button
+      title= 'Back'
+      onPress=
+      color = 'blue'
+
+      />
       <TouchableHighlight
         onPress={() => this.setState({ showSelectedPhoto: true, uri: uri })}>
         <Image
           source={{ uri: rowData.node.image.uri }}
           style={styles.image} />
       </TouchableHighlight>
+      </View>
     )
   }
 
