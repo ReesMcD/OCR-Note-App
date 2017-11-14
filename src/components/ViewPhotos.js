@@ -6,7 +6,8 @@ import {
   ListView,
   StyleSheet,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  CameraRoll
 
 } from 'react-native';
 
@@ -19,6 +20,15 @@ class ViewPhotos extends Component {
     }),
     showSelectedPhoto: false,
     uri: ''
+  }
+//Trying to set State before render
+  componentWillMount() {
+    CameraRoll.getPhotos({first: 1}).then(res => {
+      let photoArray = res.edges;
+      console.log("State from View");
+      console.log(photoArray);
+      this.setState({photoArray: photoArray})
+    })
   }
 
   renderRow(rowData) {
@@ -42,7 +52,8 @@ class ViewPhotos extends Component {
 
   render() {
     const { showSelectedPhoto, uri } = this.state;
-
+    console.log("Props from View");
+    console.log(this.props.photoArray);
     if (showSelectedPhoto) {
       return (
         <SelectedPhoto

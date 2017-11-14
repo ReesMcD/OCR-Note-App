@@ -7,7 +7,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ViewPhotos from './ViewPhotos';
@@ -157,12 +158,17 @@ export default class capture extends React.Component {
   getPhotosFromGallery() {
     CameraRoll.getPhotos({first: 1}).then(res => {
       let photoArray = res.edges;
+      console.log(photoArray);
       this.setState({showPhotoGallery: true, photoArray: photoArray})
     })
   }
 
   //TODO: Add everyting to render that is needed
   //CaptureQuality and CaptureTarget effect the picture for text conversion
+//   <Button
+// onPress={() => this.props.navigation.navigate('Edit', { name: 'edit' })}
+// title="To Edit"
+// />
   render() {
     if (this.state.showPhotoGallery) {
       return (<ViewPhotos photoArray={this.state.photoArray}/>)
@@ -179,6 +185,8 @@ export default class capture extends React.Component {
       <TouchableHighlight style={styles.cameraRoll} onPress={() => this.getPhotosFromGallery()}>
         <Image source={require('../Img/camera_roll_circle.png')}/>
       </TouchableHighlight>
+
+
     </View>);
   }
 

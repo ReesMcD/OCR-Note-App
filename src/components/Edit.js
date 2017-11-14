@@ -18,9 +18,10 @@ export default class EditScreen extends React.Component {
   };
   render() {
     const {navigate} = this.props.navigation;
+    const {state} = this.props.navigation;
     return (
       <View>
-        <Text>Editting will happen here</Text>
+        <Text>{state.params.name}</Text>
       </View>
     );
   }
