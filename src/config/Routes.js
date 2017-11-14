@@ -4,18 +4,9 @@ import Camera from '../components/Camera'
 import CamRoll from '../components/ViewPhotos'
 import {TabNavigator, StackNavigator, addNavigationHelpers} from 'react-navigation'
 
-const Tabs = TabNavigator({
-  Home: {
-    screen: Home
-  },
+const Stack = StackNavigator({
   Camera: {
-    screen: Camera
-  },
-})
-
-const Routes = {
-  Home: {
-    screen: Tabs
+    screen: Camera,
   },
   Edit: {
     screen: Edit
@@ -23,6 +14,17 @@ const Routes = {
   CamRoll: {
     screen: CamRoll
   }
+})
+
+const Routes = {
+  Home: {
+    screen: Home
+  },
+  Camera: {
+    screen: Stack
+  }
 }
+
+
 
 export default Routes

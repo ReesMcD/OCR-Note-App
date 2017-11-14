@@ -7,7 +7,7 @@ import Routes from "./src/config/Routes";
 //   //headerMode: 'none' // if you dont want a top header
 // })
 
-const Navigator = StackNavigator(Routes, {
+const Navigator = TabNavigator(Routes, {
   //headerMode: 'none' // if you dont want a top header
 })
 
