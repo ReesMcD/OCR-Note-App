@@ -155,11 +155,10 @@ export default class capture extends React.Component {
   // TODO: Integrate Android --> Look here: https://medium.com/react-native-training/mastering-the-camera-roll-in-react-native-13b3b1963a2d
   // TODO: Rees - So I think we can actually translate the text in takePicture() above
   //but we also should be able to translate a photo already taken
-  getPhotosFromGallery() {
-    CameraRoll.getPhotos({first: 1}).then(res => {
+  goToPhotos = () => {
+    CameraRoll.getPhotos({first: 100}).then(res => {
       let photoArray = res.edges;
-      console.log(photoArray);
-      this.setState({showPhotoGallery: true, photoArray: photoArray})
+      this.props.navigation.navigate('CamRoll', { photoArray: photoArray})
     })
   }
 
@@ -170,9 +169,6 @@ export default class capture extends React.Component {
 // title="To Edit"
 // />
   render() {
-    if (this.state.showPhotoGallery) {
-      return (<ViewPhotos photoArray={this.state.photoArray}/>)
-    }
     return (<View style={styles.container}>
       <Camera ref={(cam) => {
           this.camera = cam;
@@ -182,7 +178,7 @@ export default class capture extends React.Component {
         <Image source={require('../Img/shutter.png')}/>
       </TouchableHighlight>
 
-      <TouchableHighlight style={styles.cameraRoll} onPress={() => this.getPhotosFromGallery()}>
+      <TouchableHighlight style={styles.cameraRoll} onPress={() => {this.goToPhotos()}}>
         <Image source={require('../Img/camera_roll_circle.png')}/>
       </TouchableHighlight>
 

@@ -21,25 +21,11 @@ class ViewPhotos extends Component {
     showSelectedPhoto: false,
     uri: ''
   }
-//Trying to set State before render
-  componentWillMount() {
-    CameraRoll.getPhotos({first: 1}).then(res => {
-      let photoArray = res.edges;
-      console.log("State from View");
-      console.log(photoArray);
-      this.setState({photoArray: photoArray})
-    })
-  }
 
   renderRow(rowData) {
     const { uri } = rowData.node.image;
     return (
       <View>
-      <Button
-      title= 'Back'
-      color = 'blue'
-
-      />
       <TouchableHighlight
         onPress={() => this.setState({ showSelectedPhoto: true, uri: uri })}>
         <Image
@@ -52,8 +38,9 @@ class ViewPhotos extends Component {
 
   render() {
     const { showSelectedPhoto, uri } = this.state;
+    const {state} = this.props.navigation;
     console.log("Props from View");
-    console.log(this.props.photoArray);
+    console.log(state.params.photoArray);
     if (showSelectedPhoto) {
       return (
         <SelectedPhoto
@@ -67,7 +54,7 @@ class ViewPhotos extends Component {
         </View>
         <ListView
           contentContainerStyle={styles.list}
-          dataSource={this.state.ds.cloneWithRows(this.props.photoArray)}
+          dataSource={this.state.ds.cloneWithRows(state.params.photoArray)}
           renderRow={(rowData) => this.renderRow(rowData)}
           enableEmptySections={true} />
       </View>
