@@ -22,6 +22,10 @@ class ViewPhotos extends Component {
     uri: ''
   }
 
+  static navigationOptions = {
+    title: "Camera Roll",
+  };
+
   renderRow(rowData) {
     const { uri } = rowData.node.image;
     return (
@@ -47,9 +51,6 @@ class ViewPhotos extends Component {
     }
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ alignItems: 'center', marginTop: 15 }}>
-          <Text style={{ fontSize: 20, fontWeight: '600' }}>Pick A Photo </Text>
-        </View>
         <ListView
           contentContainerStyle={styles.list}
           dataSource={this.state.ds.cloneWithRows(state.params.photoArray)}

@@ -13,6 +13,7 @@ import {
 import Camera from 'react-native-camera';
 import ViewPhotos from './ViewPhotos';
 import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // API KEY
 const cloudVisionKey = 'AIzaSyCg9QELuaeSftow2xQdPOjbMIrOPgvhA8w';
@@ -60,46 +61,43 @@ const styles = StyleSheet.create({
 export default class capture extends React.Component {
   constructor(props) {
     super(props)
-    //TODO: Config states --> States are essentailly like variables within the class
-    // They are set up like dictionaries or JSON data (kinda)
-    //
+    // States are set up like dictionaries or JSON data (kinda)
     this.state = {
       captureText: null, //What we will use to handle text
       flag: false, // This is just test data but will probably need a boolean flag
+      showLoader: false,
     }
 
-    //TODO: Some functions that effect state (I think) will need to be binded here
-    // Something like this -->
+    //Some functions that effect state and have parameters (I think) will need to be binded here
     this.setTextContent = this.setTextContent.bind(this);
 
   }
 
   static navigationOptions = {
-    title: 'Camera'
+    // header: {
+    //   visible: false,
+    // }
   };
 
-  //TODO: functions like these will probably be needed
-  // setTextContent essentailly sets the state of the captureText
-  // toggleLoader is a funtions that could be used for a loading screen via react-native-loading-spinner-overlay
-
+//Sets text as well as calls toggle
   setTextContent(textContent) {
-    //this.toggleLoader();
+    this.toggleLoader();
     this.setState({captureText: textContent});
   }
-  //This would be a loading screen
-  // toggleLoader() {
-  //   this.setState({
-  //     showLoader: !this.state.showLoader
-  //   })
-  // }
 
-  //TODO: Possibly add loader
-  //Possibly helpful https://github.com/DjordjePetrovic/react-native-camera-translator
+  //Toggles loading screen
+  toggleLoader() {
+    this.setState({
+      showLoader: !this.state.showLoader
+    })
+  }
 
+  //Helpful https://github.com/DjordjePetrovic/react-native-camera-translator
   takePicture() {
     let self = this;
-    //this.toggleLoader();
+    this.toggleLoader();
     this.camera.capture().then((pic) => {
+      //POST to API to get text
       axios.post(cloudVision, {
         "requests": [
           {
@@ -117,9 +115,10 @@ export default class capture extends React.Component {
       }).then((response) => {
         let textAnnotations = response.data.responses[0].textAnnotations[0],
           textContent = textAnnotations.description;
+
         self.setTextContent(textContent);
-        console.log(this.state.captureText);
-        this.props.navigation.navigate('Edit', { name: this.state.captureText })
+        //Navigates to edit screen after text is gotten
+        this.props.navigation.navigate('Edit', { text: this.state.captureText })
 
       }).catch(function(error) {
         console.log(error, "error");
@@ -134,18 +133,15 @@ export default class capture extends React.Component {
   goToPhotos = () => {
     CameraRoll.getPhotos({first: 100}).then(res => {
       let photoArray = res.edges;
+      //Navigates to CameraRoll passing in first 100 photos
       this.props.navigation.navigate('CamRoll', {photoArray: photoArray})
     })
   }
 
-  //TODO: Add everyting to render that is needed
   //CaptureQuality and CaptureTarget effect the picture for text conversion
-  //   <Button
-  // onPress={() => this.props.navigation.navigate('Edit', { name: 'edit' })}
-  // title="To Edit"
-  // />
   render() {
     return (<View style={styles.container}>
+      <Spinner visible={this.state.showLoader}/>
       <Camera ref={(cam) => {
           this.camera = cam;
         }} style={styles.preview} captureQuality={Camera.constants.CaptureQuality["720p"]} captureTarget={Camera.constants.CaptureTarget.memory} aspect={Camera.constants.Aspect.fill}></Camera>

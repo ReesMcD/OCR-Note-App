@@ -14,6 +14,8 @@ const Stack = StackNavigator({
   CamRoll: {
     screen: CamRoll
   }
+}, {
+  //headerMode: 'screen' // if you dont want a top header
 })
 
 const Routes = {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+import {Platform, StyleSheet, Text, ScrollView, Button} from 'react-native';
 
 //TODO: Style Stuff here
 const styles = StyleSheet.create({
@@ -23,14 +23,14 @@ export default class HomeScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Welcome'
+    title: 'Notes Page'
   };
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View>
-        <Text className='alive' style={styles.grey}>Welcome to TakePicture!</Text>
-      </View>
+      <ScrollView>
+        <Text className='alive' style={styles.grey}>Welcome to Noted!</Text>
+      </ScrollView>
     );
   }
 }
